@@ -8,6 +8,7 @@ export type ProductsFilters = {
 type GetAllCategoriesResponse = {
   id: string;
   name: string;
+  discountPercentage: number;
 };
 
 export async function getAll(): Promise<GetAllCategoriesResponse[]> {

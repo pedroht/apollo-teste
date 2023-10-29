@@ -1,7 +1,8 @@
 import { ColumnDef } from "@tanstack/react-table";
 
-import { CellAction } from "./cell-action";
-import { SortingHeader } from "./sorting-header";
+import { productsService } from "@/app/services/productsService";
+import { CellAction } from "@/view/components/cell-action";
+import { SortingHeader } from "@/view/components/sorting-header";
 
 export type ProductColumn = {
   id: string;
@@ -48,6 +49,6 @@ export const columns: ColumnDef<ProductColumn>[] = [
   },
   {
     id: "actions",
-    cell: ({ row }) => <CellAction data={row.original} />,
+    cell: ({ row }) => <CellAction invalidateQueryKey="products" onDelete={() => productsService.remove(row.original.id)} />,
   },
 ];

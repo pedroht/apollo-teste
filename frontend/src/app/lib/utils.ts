@@ -17,3 +17,7 @@ export function currencyStringToNumber(value: string) {
 
   return Number(sanitizedString);
 }
+
+export function transformDecimalDiscountToPercent(discount: number) {
+  return `${(discount * 100).toFixed(2)}%`
+}

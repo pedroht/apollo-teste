@@ -1,9 +1,8 @@
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { MoreHorizontal, Trash } from "lucide-react";
 import { useState } from "react";
 import toast from "react-hot-toast";
 
-import { useProducts } from "@/app/hooks/useProducts";
-import { productsService } from "@/app/services/productsService";
 import { AlertModal } from "@/view/components/modals/alert-modal";
 import { Button } from "@/view/components/ui/button";
 import {
@@ -14,32 +13,33 @@ import {
   DropdownMenuTrigger,
 } from "@/view/components/ui/dropdown-menu";
 
-import { ProductColumn } from "./column";
-
 interface CellActionProps {
-  data: ProductColumn;
+  onDelete(): Promise<void>;
+  invalidateQueryKey: string;
 }
 
-export function CellAction({ data }: CellActionProps) {
-  const [loading, setLoading] = useState(false);
+export function CellAction({ onDelete, invalidateQueryKey }: CellActionProps) {
   const [open, setOpen] = useState(false);
 
-  const { refetchProducts } = useProducts();
+  const queryClient = useQueryClient();
+  const { isPending: isLoading, mutateAsync: removeFn } =
+    useMutation({
+      mutationFn: onDelete
+    });
 
   async function handleDelete() {
     try {
-      setLoading(true);
+      await removeFn();
 
-      await productsService.remove(data.id);
+      queryClient.invalidateQueries({
+        queryKey: [invalidateQueryKey],
+      });
 
-      refetchProducts();
-      toast.success("Product deleted");
-    } catch (error) {
-      console.log(error);
-      toast.error("Something went wrong.");
-    } finally {
-      setLoading(false);
-      setOpen(false);
+      toast.success("Registry deleted!");
+      setOpen(false)
+    } catch(error) {
+      console.log({ error })
+      toast.error("Something went wrong!");
     }
   }
 
@@ -49,7 +49,7 @@ export function CellAction({ data }: CellActionProps) {
         isOpen={open}
         onClose={() => setOpen(false)}
         onConfirm={handleDelete}
-        loading={loading}
+        loading={isLoading}
       />
 
       <DropdownMenu>

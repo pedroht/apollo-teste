@@ -1,6 +1,6 @@
 import { create } from "./create";
-import { remove } from "./delete";
 import { getAll } from "./getAll";
+import { remove } from "./remove";
 
 export const productsService = {
   getAll,
