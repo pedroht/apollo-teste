@@ -20,6 +20,10 @@ export class ProductsRepository {
     });
   }
 
+  update(updateDto: Prisma.ProductUpdateArgs) {
+    return this.prismaService.product.update(updateDto);
+  }
+
   delete(deleteDto: Prisma.ProductDeleteArgs) {
     return this.prismaService.product.delete(deleteDto);
   }
