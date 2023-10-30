@@ -16,7 +16,7 @@ export function Home() {
           <h2 className="text-center text-2xl font-bold tracking-tight">
             Projeto FullStack Junior
           </h2>
-          <p className="text-center text-muted-foreground">
+          <p className="text-muted-foreground text-center">
             Cadastro de Produtos
           </p>
         </div>

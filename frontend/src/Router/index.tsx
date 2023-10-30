@@ -1,9 +1,9 @@
-import { Home } from 'lucide-react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
 import { MainLayout } from '../view/layouts/main-layout';
 import { Categories } from '../view/pages/Categories';
 import { CreateCategory } from '../view/pages/Categories/Create';
+import { Home } from '../view/pages/Home';
 import { Products } from '../view/pages/Products';
 import { CreateProduct } from '../view/pages/Products/Create';
 
