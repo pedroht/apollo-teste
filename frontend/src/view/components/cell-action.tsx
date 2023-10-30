@@ -1,17 +1,17 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { MoreHorizontal, Trash } from "lucide-react";
-import { useState } from "react";
-import toast from "react-hot-toast";
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { MoreHorizontal, Trash } from 'lucide-react';
+import { useState } from 'react';
+import toast from 'react-hot-toast';
 
-import { AlertModal } from "@/view/components/modals/alert-modal";
-import { Button } from "@/view/components/ui/button";
+import { AlertModal } from './modals/alert-modal';
+import { Button } from './ui/button';
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuTrigger,
-} from "@/view/components/ui/dropdown-menu";
+} from './ui/dropdown-menu';
 
 interface CellActionProps {
   onDelete(): Promise<void>;
@@ -22,10 +22,9 @@ export function CellAction({ onDelete, invalidateQueryKey }: CellActionProps) {
   const [open, setOpen] = useState(false);
 
   const queryClient = useQueryClient();
-  const { isPending: isLoading, mutateAsync: removeFn } =
-    useMutation({
-      mutationFn: onDelete
-    });
+  const { isPending: isLoading, mutateAsync: removeFn } = useMutation({
+    mutationFn: onDelete,
+  });
 
   async function handleDelete() {
     try {
@@ -35,11 +34,10 @@ export function CellAction({ onDelete, invalidateQueryKey }: CellActionProps) {
         queryKey: [invalidateQueryKey],
       });
 
-      toast.success("Registry deleted!");
-      setOpen(false)
+      toast.success('Registry deleted!');
+      setOpen(false);
     } catch (error) {
-      console.log({ error })
-      toast.error("Something went wrong!");
+      toast.error('Something went wrong!');
     }
   }
 

@@ -1,4 +1,4 @@
-import { httpClient } from "../httpClient";
+import { httpClient } from '../httpClient';
 
 export interface CreateProductParams {
   categoryId: string;
@@ -9,7 +9,7 @@ export interface CreateProductParams {
 }
 
 export async function create(params: CreateProductParams) {
-  const { data } = await httpClient.post("/products", params);
+  const { data } = await httpClient.post('/products', params);
 
   return data;
 }

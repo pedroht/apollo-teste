@@ -1,13 +1,13 @@
-import { Plus } from "lucide-react";
-import { useNavigate } from "react-router-dom";
+import { Plus } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
-import { useCategories } from "@/app/hooks/useCategories";
-import { transformDecimalDiscountToPercent } from "@/app/lib/utils";
-import { Heading } from "@/view/components/heading";
-import { Button } from "@/view/components/ui/button";
-import { DataTable } from "@/view/components/ui/data-table";
+import { useCategories } from '../../../app/hooks/useCategories';
+import { transformDecimalDiscountToPercent } from '../../../app/lib/utils';
+import { Heading } from '../../components/heading';
+import { Button } from '../../components/ui/button';
+import { DataTable } from '../../components/ui/data-table';
 
-import { CategoryColumn, columns } from "./components/column";
+import { CategoryColumn, columns } from './components/column';
 
 export function Categories() {
   const { categories } = useCategories();
@@ -19,7 +19,7 @@ export function Categories() {
   }));
 
   function handleNavigateToCreatePage() {
-    navigate("/categories/new");
+    navigate('/categories/new');
   }
 
   return (
@@ -37,9 +37,7 @@ export function Categories() {
         <DataTable
           data={formatedCategories}
           columns={columns}
-          searchKeys={[
-            { key: "name", placeholder: "Search by Name" },
-          ]}
+          searchKeys={[{ key: 'name', placeholder: 'Search by Name' }]}
         />
       </div>
     </div>

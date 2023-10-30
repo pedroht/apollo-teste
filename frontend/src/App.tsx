@@ -1,8 +1,8 @@
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { Toaster } from "react-hot-toast";
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { Toaster } from 'react-hot-toast';
 
-import { Router } from "./Router";
-import { ThemeProvider } from "./view/components/providers/theme-provider";
+import { Router } from './Router';
+import { ThemeProvider } from './view/components/providers/theme-provider';
 
 const queryClient = new QueryClient({
   defaultOptions: {

@@ -1,15 +1,18 @@
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { useForm } from "react-hook-form";
-import { toast } from "react-hot-toast";
-import { useNavigate } from "react-router-dom";
-import { z } from "zod";
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useForm } from 'react-hook-form';
+import { toast } from 'react-hot-toast';
+import { useNavigate } from 'react-router-dom';
+import { z } from 'zod';
 
-import { currencyStringToNumber, transformPriceFloatToString } from "@/app/lib/utils";
-import { productsService } from "@/app/services/productsService";
-import { ProductResponse } from "@/app/services/productsService/getAll";
-import { Heading } from "@/view/components/heading";
-import { Button } from "@/view/components/ui/button";
+import {
+  currencyStringToNumber,
+  transformPriceFloatToString,
+} from '../../../../app/lib/utils';
+import { productsService } from '../../../../app/services/productsService';
+import { ProductResponse } from '../../../../app/services/productsService/getAll';
+import { Heading } from '../../../components/heading';
+import { Button } from '../../../components/ui/button';
 import {
   Form,
   FormControl,
@@ -17,17 +20,17 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/view/components/ui/form";
-import { Input } from "@/view/components/ui/input";
-import { InputCurrency } from "@/view/components/ui/input-currency";
+} from '../../../components/ui/form';
+import { Input } from '../../../components/ui/input';
+import { InputCurrency } from '../../../components/ui/input-currency';
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/view/components/ui/select";
-import { Textarea } from "@/view/components/ui/textarea";
+} from '../../../components/ui/select';
+import { Textarea } from '../../../components/ui/textarea';
 
 interface ProductFormProps {
   initialData?: ProductResponse;
@@ -46,36 +49,43 @@ const schema = z.object({
 type FormData = z.infer<typeof schema>;
 
 export function ProductForm({
-  initialData, categories, onSubmit }: ProductFormProps) {
+  initialData,
+  categories,
+  onSubmit,
+}: ProductFormProps) {
   const navigate = useNavigate();
 
-  const title = initialData ? "Edit product" : "Create product";
-  const description = initialData ? "Edit a product" : "Add a new product";
-  const toastMessage = initialData ? "Product updated." : "Product created.";
-  const action = initialData ? "Save changes" : "Create";
+  const title = initialData ? 'Edit product' : 'Create product';
+  const description = initialData ? 'Edit a product' : 'Add a new product';
+  const toastMessage = initialData ? 'Product updated.' : 'Product created.';
+  const action = initialData ? 'Save changes' : 'Create';
 
   const form = useForm<FormData>({
     resolver: zodResolver(schema),
-    defaultValues: initialData ? {
-      ...initialData,
-      price: transformPriceFloatToString(initialData.price)
-    } : {
-      name: "",
-      description: "",
-      color: "",
-      price: "",
-    },
+    defaultValues: initialData
+      ? {
+          ...initialData,
+          price: transformPriceFloatToString(initialData.price),
+        }
+      : {
+          name: '',
+          description: '',
+          color: '',
+          price: '',
+        },
   });
 
   const queryClient = useQueryClient();
 
-  const { isPending: isLoadingCreate, mutateAsync: createProduct } = useMutation({
-    mutationFn: productsService.create
-  });
+  const { isPending: isLoadingCreate, mutateAsync: createProduct } =
+    useMutation({
+      mutationFn: productsService.create,
+    });
 
-  const { isPending: isLoadingUpdate, mutateAsync: updateProduct } = useMutation({
-    mutationFn: productsService.update
-  });
+  const { isPending: isLoadingUpdate, mutateAsync: updateProduct } =
+    useMutation({
+      mutationFn: productsService.update,
+    });
 
   const isSubmitting = isLoadingCreate || isLoadingUpdate;
 
@@ -83,28 +93,27 @@ export function ProductForm({
     try {
       const formatedProductWithPrice = {
         ...data,
-        price: currencyStringToNumber(data.price)
-      }
+        price: currencyStringToNumber(data.price),
+      };
 
       if (initialData) {
         await updateProduct({
           ...formatedProductWithPrice,
-          id: initialData.id
-        })
+          id: initialData.id,
+        });
       } else {
-        await createProduct(formatedProductWithPrice)
+        await createProduct(formatedProductWithPrice);
       }
 
-      onSubmit?.()
+      onSubmit?.();
       queryClient.invalidateQueries({
-        queryKey: ["products"],
+        queryKey: ['products'],
       });
 
-      navigate("/products");
+      navigate('/products');
       toast.success(toastMessage);
     } catch (error) {
-      console.log(error);
-      toast.error("Something went wrong");
+      toast.error('Something went wrong');
     }
   });
 

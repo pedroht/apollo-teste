@@ -1,11 +1,12 @@
-import { Button } from "@/view/components/ui/button";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
+
+import { Button } from '../../components/ui/button';
 
 export function Home() {
   const navigate = useNavigate();
 
   function handleNavigation() {
-    navigate("/products");
+    navigate('/products');
   }
 
   return (

@@ -1,5 +1,5 @@
-import { useCategories } from "@/app/hooks/useCategories";
-import { ProductForm } from "../components/product-form";
+import { useCategories } from '../../../../app/hooks/useCategories';
+import { ProductForm } from '../components/product-form';
 
 export function CreateProduct() {
   const { categories } = useCategories();

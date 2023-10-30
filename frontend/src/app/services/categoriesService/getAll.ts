@@ -1,4 +1,4 @@
-import { httpClient } from "../httpClient";
+import { httpClient } from '../httpClient';
 
 export type ProductsFilters = {
   name?: string;
@@ -12,7 +12,7 @@ type GetAllCategoriesResponse = {
 };
 
 export async function getAll(): Promise<GetAllCategoriesResponse[]> {
-  const { data } = await httpClient.get("/categories");
+  const { data } = await httpClient.get('/categories');
 
   return data;
 }

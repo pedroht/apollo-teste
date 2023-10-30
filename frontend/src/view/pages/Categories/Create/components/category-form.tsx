@@ -1,24 +1,23 @@
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import { toast } from "react-hot-toast";
-import { useNavigate } from "react-router-dom";
-import { z } from "zod";
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useForm } from 'react-hook-form';
+import { toast } from 'react-hot-toast';
+import { Form, useNavigate } from 'react-router-dom';
+import { z } from 'zod';
 
-import { currencyStringToNumber } from "@/app/lib/utils";
-import { categoriesService } from "@/app/services/categoriesService";
-import { Heading } from "@/view/components/heading";
-import { Button } from "@/view/components/ui/button";
+import { currencyStringToNumber } from '../../../../../app/lib/utils';
+import { categoriesService } from '../../../../../app/services/categoriesService';
+import { Heading } from '../../../../components/heading';
+import { Button } from '../../../../components/ui/button';
 import {
-  Form,
   FormControl,
   FormDescription,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/view/components/ui/form";
-import { Input } from "@/view/components/ui/input";
-import { InputPercentage } from "@/view/components/ui/input-percentage";
+} from '../../../../components/ui/form';
+import { Input } from '../../../../components/ui/input';
+import { InputPercentage } from '../../../../components/ui/input-percentage';
 
 const schema = z.object({
   name: z.string().min(1),
@@ -33,8 +32,8 @@ export function CategoryForm() {
   const form = useForm<FormData>({
     resolver: zodResolver(schema),
     defaultValues: {
-      name: "",
-      discount: "",
+      name: '',
+      discount: '',
     },
   });
 
@@ -47,11 +46,10 @@ export function CategoryForm() {
         discount: currencyStringToNumber(data.discount),
       });
 
-      navigate("/categories");
-      toast.success("Category Created");
+      navigate('/categories');
+      toast.success('Category Created');
     } catch (error) {
-      console.log(error);
-      toast.error("Something went wrong");
+      toast.error('Something went wrong');
     }
   });
 
@@ -88,9 +86,14 @@ export function CategoryForm() {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Price</FormLabel>
-                  <FormDescription>Insert the discount percentage to this category (0-100)%</FormDescription>
+                  <FormDescription>
+                    Insert the discount percentage to this category (0-100)%
+                  </FormDescription>
                   <FormControl>
-                    <InputPercentage value={field.value} onChange={field.onChange} />
+                    <InputPercentage
+                      value={field.value}
+                      onChange={field.onChange}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

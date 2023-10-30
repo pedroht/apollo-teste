@@ -1,6 +1,7 @@
-import { cn } from "@/app/lib/utils";
-import { Layers3, PlusCircle, ShoppingBag } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Layers3, PlusCircle, ShoppingBag } from 'lucide-react';
+import { Link } from 'react-router-dom';
+
+import { cn } from '../../app/lib/utils';
 
 interface SidebarProps {
   className: string;
@@ -8,7 +9,7 @@ interface SidebarProps {
 
 export function Sidebar({ className }: SidebarProps) {
   return (
-    <div className={cn("lg:pb-12", className)}>
+    <div className={cn('lg:pb-12', className)}>
       <div className="space-y-4 py-4">
         <div className="px-3 py-2">
           <h2 className="mb-2 px-4 text-lg font-semibold tracking-tight">

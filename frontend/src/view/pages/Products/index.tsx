@@ -1,21 +1,20 @@
-import { Plus } from "lucide-react";
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Plus } from 'lucide-react';
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
-import { Heading } from "@/view/components/heading";
-import { Button } from "@/view/components/ui/button";
-import { DataTable } from "@/view/components/ui/data-table";
+import { useProducts } from '../../../app/hooks/useProducts';
+import { formatCurrency } from '../../../app/lib/utils';
+import { ProductResponse } from '../../../app/services/productsService/getAll';
+import { Heading } from '../../components/heading';
+import { EditProductModal } from '../../components/modals/edit-product-modal';
+import { Button } from '../../components/ui/button';
+import { DataTable } from '../../components/ui/data-table';
 
-import { useProducts } from "@/app/hooks/useProducts";
-import { formatCurrency } from "@/app/lib/utils";
-
-import { ProductResponse } from "@/app/services/productsService/getAll";
-import { EditProductModal } from "@/view/components/modals/edit-product-modal";
-
-import { ProductColumn, columns } from "./components/column";
+import { ProductColumn, columns } from './components/column';
 
 export function Products() {
-  const [productBeingEdited, setProductBeingEdited] = useState<ProductResponse | null>(null)
+  const [productBeingEdited, setProductBeingEdited] =
+    useState<ProductResponse | null>(null);
   const { products } = useProducts();
   const navigate = useNavigate();
 
@@ -27,11 +26,11 @@ export function Products() {
   }));
 
   function handleNavigateToCreatePage() {
-    navigate("/products/new");
+    navigate('/products/new');
   }
 
   function handleRowClick(data: ProductColumn) {
-    const product = products.find(p => p.id === data.id)
+    const product = products.find((p) => p.id === data.id);
     if (product) {
       setProductBeingEdited(product);
     }
@@ -58,8 +57,8 @@ export function Products() {
             data={formatedProducts}
             columns={columns}
             searchKeys={[
-              { key: "name", placeholder: "Search by Name" },
-              { key: "category", placeholder: "Search by Category" },
+              { key: 'name', placeholder: 'Search by Name' },
+              { key: 'category', placeholder: 'Search by Category' },
             ]}
             onRowClick={handleRowClick}
           />
@@ -67,7 +66,10 @@ export function Products() {
       </div>
 
       {productBeingEdited && (
-        <EditProductModal initialData={productBeingEdited} onClose={handleCloseEditModal} />
+        <EditProductModal
+          initialData={productBeingEdited}
+          onClose={handleCloseEditModal}
+        />
       )}
     </>
   );

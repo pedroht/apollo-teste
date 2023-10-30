@@ -1,11 +1,10 @@
-
-import { CategoryForm } from "./components/category-form";
+import { CategoryForm } from './components/category-form';
 
 export function CreateCategory() {
   return (
     <div className="flex-col">
       <div className="flex-1 space-y-4 p-8 pt-6">
-        <CategoryForm  />
+        <CategoryForm />
       </div>
     </div>
   );

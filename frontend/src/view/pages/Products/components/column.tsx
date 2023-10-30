@@ -1,8 +1,8 @@
-import { ColumnDef } from "@tanstack/react-table";
+import { ColumnDef } from '@tanstack/react-table';
 
-import { productsService } from "@/app/services/productsService";
-import { CellAction } from "@/view/components/cell-action";
-import { SortingHeader } from "@/view/components/sorting-header";
+import { productsService } from '../../../../app/services/productsService';
+import { CellAction } from '../../../components/cell-action';
+import { SortingHeader } from '../../../components/sorting-header';
 
 export type ProductColumn = {
   id: string;
@@ -16,41 +16,38 @@ export type ProductColumn = {
 
 export const columns: ColumnDef<ProductColumn>[] = [
   {
-    accessorKey: "name",
-    header: ({ column }) => {
-      return <SortingHeader title="Name" column={column} />;
-    },
+    accessorKey: 'name',
+    header: ({ column }) => <SortingHeader title="Name" column={column} />,
   },
   {
-    accessorKey: "description",
-    header: "Description",
+    accessorKey: 'description',
+    header: 'Description',
   },
   {
-    accessorKey: "color",
-    header: "Color",
+    accessorKey: 'color',
+    header: 'Color',
   },
   {
-    accessorKey: "price",
-    header: ({ column }) => {
-      return <SortingHeader title="Price" column={column} />;
-    },
+    accessorKey: 'price',
+    header: ({ column }) => <SortingHeader title="Price" column={column} />,
   },
   {
-    accessorKey: "promotionalPrice",
-    header: ({ column }) => {
-      return <SortingHeader title="Promotional Price" column={column} />;
-    },
+    accessorKey: 'promotionalPrice',
+    header: ({ column }) => (
+      <SortingHeader title="Promotional Price" column={column} />
+    ),
   },
   {
-    accessorKey: "category",
-    header: ({ column }) => {
-      return <SortingHeader title="Category" column={column} />;
-    },
+    accessorKey: 'category',
+    header: ({ column }) => <SortingHeader title="Category" column={column} />,
   },
   {
-    id: "actions",
-    cell: ({ row }) =>
-      <CellAction invalidateQueryKey="products" onDelete={() => productsService.remove(row.original.id)} />
-    ,
+    id: 'actions',
+    cell: ({ row }) => (
+      <CellAction
+        invalidateQueryKey="products"
+        onDelete={() => productsService.remove(row.original.id)}
+      />
+    ),
   },
 ];
