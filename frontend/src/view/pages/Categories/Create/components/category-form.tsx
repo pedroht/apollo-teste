@@ -1,14 +1,15 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
-import { toast } from 'react-hot-toast';
-import { Form, useNavigate } from 'react-router-dom';
-import { z } from 'zod';
+import toast from 'react-hot-toast';
+import { useNavigate } from 'react-router-dom';
+import * as z from 'zod';
 
 import { currencyStringToNumber } from '../../../../../app/lib/utils';
 import { categoriesService } from '../../../../../app/services/categoriesService';
 import { Heading } from '../../../../components/heading';
 import { Button } from '../../../../components/ui/button';
 import {
+  Form,
   FormControl,
   FormDescription,
   FormField,
@@ -85,7 +86,7 @@ export function CategoryForm() {
               name="discount"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Price</FormLabel>
+                  <FormLabel>Discount Percentage</FormLabel>
                   <FormDescription>
                     Insert the discount percentage to this category (0-100)%
                   </FormDescription>

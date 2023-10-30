@@ -12,6 +12,7 @@ export type ProductColumn = {
   price: string;
   promotionalPrice: string;
   category: string;
+  onEdit(): void;
 };
 
 export const columns: ColumnDef<ProductColumn>[] = [
@@ -46,6 +47,7 @@ export const columns: ColumnDef<ProductColumn>[] = [
     cell: ({ row }) => (
       <CellAction
         invalidateQueryKey="products"
+        onEdit={row.original.onEdit}
         onDelete={() => productsService.remove(row.original.id)}
       />
     ),

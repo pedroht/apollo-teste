@@ -18,27 +18,28 @@ export function Products() {
   const { products } = useProducts();
   const navigate = useNavigate();
 
-  const formatedProducts: ProductColumn[] = products.map((product) => ({
-    ...product,
-    price: formatCurrency(product.price),
-    promotionalPrice: formatCurrency(product.promotionalPrice),
-    category: product.category.name,
-  }));
-
-  function handleNavigateToCreatePage() {
-    navigate('/products/new');
-  }
-
-  function handleRowClick(data: ProductColumn) {
-    const product = products.find((p) => p.id === data.id);
+  function handleEditProduct(id: string) {
+    const product = products.find((p) => p.id === id);
     if (product) {
       setProductBeingEdited(product);
     }
   }
 
+  function handleNavigateToCreatePage() {
+    navigate('/products/new');
+  }
+
   function handleCloseEditModal() {
     setProductBeingEdited(null);
   }
+
+  const formatedProducts: ProductColumn[] = products.map((product) => ({
+    ...product,
+    price: formatCurrency(product.price),
+    promotionalPrice: formatCurrency(product.promotionalPrice),
+    category: product.category.name,
+    onEdit: () => handleEditProduct(product.id),
+  }));
 
   return (
     <>
@@ -60,7 +61,6 @@ export function Products() {
               { key: 'name', placeholder: 'Search by Name' },
               { key: 'category', placeholder: 'Search by Category' },
             ]}
-            onRowClick={handleRowClick}
           />
         </div>
       </div>

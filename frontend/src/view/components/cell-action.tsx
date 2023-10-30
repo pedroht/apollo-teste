@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { MoreHorizontal, Trash } from 'lucide-react';
+import { MoreHorizontal, Pencil, Trash } from 'lucide-react';
 import { useState } from 'react';
 import toast from 'react-hot-toast';
 
@@ -15,10 +15,15 @@ import {
 
 interface CellActionProps {
   onDelete(): Promise<void>;
+  onEdit(): void;
   invalidateQueryKey: string;
 }
 
-export function CellAction({ onDelete, invalidateQueryKey }: CellActionProps) {
+export function CellAction({
+  onDelete,
+  onEdit,
+  invalidateQueryKey,
+}: CellActionProps) {
   const [open, setOpen] = useState(false);
 
   const queryClient = useQueryClient();
@@ -60,6 +65,10 @@ export function CellAction({ onDelete, invalidateQueryKey }: CellActionProps) {
 
         <DropdownMenuContent align="end">
           <DropdownMenuLabel>Actions</DropdownMenuLabel>
+          <DropdownMenuItem onClick={onEdit}>
+            <Pencil className="mr-2 h-4 w-4" />
+            Edit
+          </DropdownMenuItem>
           <DropdownMenuItem onClick={() => setOpen(true)}>
             <Trash className="mr-2 h-4 w-4" />
             Delete
