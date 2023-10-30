@@ -5,7 +5,7 @@ export type ProductsFilters = {
   categoryId?: string;
 };
 
-type GetAllProductsResponse = {
+export type ProductResponse = {
   id: string;
   name: string;
   description: string;
@@ -21,7 +21,7 @@ type GetAllProductsResponse = {
 
 export async function getAll(
   filters?: ProductsFilters,
-): Promise<GetAllProductsResponse[]> {
+): Promise<ProductResponse[]> {
   const { data } = await httpClient.get("/products", {
     params: filters,
   });

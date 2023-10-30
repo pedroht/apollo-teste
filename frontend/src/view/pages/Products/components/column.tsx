@@ -49,6 +49,8 @@ export const columns: ColumnDef<ProductColumn>[] = [
   },
   {
     id: "actions",
-    cell: ({ row }) => <CellAction invalidateQueryKey="products" onDelete={() => productsService.remove(row.original.id)} />,
+    cell: ({ row }) =>
+      <CellAction invalidateQueryKey="products" onDelete={() => productsService.remove(row.original.id)} />
+    ,
   },
 ];

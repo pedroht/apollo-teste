@@ -1,11 +1,13 @@
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import { z } from "zod";
 
-import { currencyStringToNumber } from "@/app/lib/utils";
+import { currencyStringToNumber, transformPriceFloatToString } from "@/app/lib/utils";
 import { productsService } from "@/app/services/productsService";
+import { ProductResponse } from "@/app/services/productsService/getAll";
 import { Heading } from "@/view/components/heading";
 import { Button } from "@/view/components/ui/button";
 import {
@@ -28,7 +30,9 @@ import {
 import { Textarea } from "@/view/components/ui/textarea";
 
 interface ProductFormProps {
+  initialData?: ProductResponse;
   categories: Array<{ id: string; name: string }>;
+  onSubmit?: () => void;
 }
 
 const schema = z.object({
@@ -41,12 +45,21 @@ const schema = z.object({
 
 type FormData = z.infer<typeof schema>;
 
-export function ProductForm({ categories }: ProductFormProps) {
+export function ProductForm({
+  initialData, categories, onSubmit }: ProductFormProps) {
   const navigate = useNavigate();
+
+  const title = initialData ? "Edit product" : "Create product";
+  const description = initialData ? "Edit a product" : "Add a new product";
+  const toastMessage = initialData ? "Product updated." : "Product created.";
+  const action = initialData ? "Save changes" : "Create";
 
   const form = useForm<FormData>({
     resolver: zodResolver(schema),
-    defaultValues: {
+    defaultValues: initialData ? {
+      ...initialData,
+      price: transformPriceFloatToString(initialData.price)
+    } : {
       name: "",
       description: "",
       color: "",
@@ -54,17 +67,41 @@ export function ProductForm({ categories }: ProductFormProps) {
     },
   });
 
-  const { isSubmitting } = form.formState;
+  const queryClient = useQueryClient();
+
+  const { isPending: isLoadingCreate, mutateAsync: createProduct } = useMutation({
+    mutationFn: productsService.create
+  });
+
+  const { isPending: isLoadingUpdate, mutateAsync: updateProduct } = useMutation({
+    mutationFn: productsService.update
+  });
+
+  const isSubmitting = isLoadingCreate || isLoadingUpdate;
 
   const handleSubmit = form.handleSubmit(async (data) => {
     try {
-      await productsService.create({
+      const formatedProductWithPrice = {
         ...data,
-        price: currencyStringToNumber(data.price),
+        price: currencyStringToNumber(data.price)
+      }
+
+      if (initialData) {
+        await updateProduct({
+          ...formatedProductWithPrice,
+          id: initialData.id
+        })
+      } else {
+        await createProduct(formatedProductWithPrice)
+      }
+
+      onSubmit?.()
+      queryClient.invalidateQueries({
+        queryKey: ["products"],
       });
 
       navigate("/products");
-      toast.success("Product Created");
+      toast.success(toastMessage);
     } catch (error) {
       console.log(error);
       toast.error("Something went wrong");
@@ -74,7 +111,7 @@ export function ProductForm({ categories }: ProductFormProps) {
   return (
     <div className="space-y-8">
       <div className="flex items-center justify-between">
-        <Heading title="Create Product" description="Add a new product" />
+        <Heading title={title} description={description} />
       </div>
 
       <Form {...form}>
@@ -187,7 +224,7 @@ export function ProductForm({ categories }: ProductFormProps) {
           </div>
 
           <Button disabled={isSubmitting} className="ml-auto" type="submit">
-            Create
+            {action}
           </Button>
         </form>
       </Form>

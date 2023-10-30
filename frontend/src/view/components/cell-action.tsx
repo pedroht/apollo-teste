@@ -37,7 +37,7 @@ export function CellAction({ onDelete, invalidateQueryKey }: CellActionProps) {
 
       toast.success("Registry deleted!");
       setOpen(false)
-    } catch(error) {
+    } catch (error) {
       console.log({ error })
       toast.error("Something went wrong!");
     }

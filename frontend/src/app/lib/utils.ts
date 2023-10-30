@@ -18,6 +18,10 @@ export function currencyStringToNumber(value: string) {
   return Number(sanitizedString);
 }
 
+export function transformPriceFloatToString(value: number) {
+  return value.toString().replace(".", ",")
+}
+
 export function transformDecimalDiscountToPercent(discount: number) {
   return `${(discount * 100).toFixed(2)}%`
 }

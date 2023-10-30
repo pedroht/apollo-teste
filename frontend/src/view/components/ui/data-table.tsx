@@ -30,12 +30,14 @@ interface DataTableProps<TData, TValue> {
     key: string;
     placeholder: string;
   }>;
+  onRowClick(data: TData): void;
 }
 
 export function DataTable<TData, TValue>({
   columns,
   data,
   searchKeys,
+  onRowClick
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
@@ -81,9 +83,9 @@ export function DataTable<TData, TValue>({
                       {header.isPlaceholder
                         ? null
                         : flexRender(
-                            header.column.columnDef.header,
-                            header.getContext(),
-                          )}
+                          header.column.columnDef.header,
+                          header.getContext(),
+                        )}
                     </TableHead>
                   );
                 })}
@@ -96,6 +98,7 @@ export function DataTable<TData, TValue>({
               table.getRowModel().rows.map((row) => (
                 <TableRow
                   key={row.id}
+                  onClick={() => onRowClick(row.original)}
                   data-state={row.getIsSelected() && "selected"}
                 >
                   {row.getVisibleCells().map((cell) => (
